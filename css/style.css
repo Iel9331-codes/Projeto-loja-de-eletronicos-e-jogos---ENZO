@@ -1,196 +1,544 @@
-
-    
-  
-/* Paleta e largura da página
-   :root guarda valores que o restante do arquivo reutiliza com var().
-   Troque --verde para mudar a cor de destaque da loja.
-   A margem lateral cresce em telas largas para centralizar o conteúdo. */
+/* ==========================================================================
+   1. VARIÁVEIS DE CORES (:root)
+   Centraliza toda a paleta minimalista (preto, grafite, branco e azul).
+   Para mudar a cor de destaque ou o fundo do site inteiro, altere só aqui.
+   ========================================================================== */
 :root {
-    --branco: #ffffff;
-    --verde-escuro: #104d37;
-    --texto: #202724;
-    --secundario: #526059;
-    --verde: #176349;
-    --linha: #d8e0db;
-    --fundo-suave: #f2f6f3;
-    --margem: max(1rem, calc((100% - 64rem) / 2));
+    --cor-fundo: #09090B;            /* Fundo preto principal da página */
+    --cor-superficie: #121215;       /* Fundo do cabeçalho, seções e rodapé */
+    --cor-cartao: #18181B;           /* Fundo interno dos cartões de produto */
+    --cor-cartao-hover: #202025;     /* Fundo do cartão ao passar o mouse */
+    --cor-fundo-imagem: #FFFFFF;     /* Fundo claro para destacar fotos de produtos */
+    --cor-texto-principal: #F4F4F5;  /* Branco suave para títulos e textos */
+    --cor-texto-suave: #A1A1AA;      /* Cinza claro para textos secundários */
+    --cor-destaque: #3B82F6;         /* Azul principal (botões, preços e bordas) */
+    --cor-destaque-hover: #2563EB;   /* Azul mais intenso para hover e focus */
+    --cor-borda: #27272A;            /* Borda sutil para delimitar cada bloco */
 }
 
-/* Base da página
-   Com border-box, a largura definida inclui o padding e a borda.
-   Os títulos e parágrafos recebem espaçamentos próprios mais abaixo. */
+/* ==========================================================================
+   2. RESET E BOX MODEL GLOBAL
+   Zera margens padrão do navegador e ativa 'border-box' para que padding
+   e border não somem largura extra e não quebrem o tamanho dos cartões.
+   ========================================================================== */
 * {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    background: var(--branco);
-    color: var(--texto);
-    font-family: "Inter", system-ui, sans-serif;
-    line-height: 1.55;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto-principal);
+    line-height: 1.6;
 }
 
-h1, h2, h3, h4, p, ul {
-    margin: 0;
-}
-
-h1, h2, h3, h4 {
-    line-height: 1.2;
-}
-
-/* Cabeçalho e menu
-   Flexbox alinha o logo, o nome da loja e a navegação na mesma linha.
-   O título ocupa o espaço livre. A propriedade order coloca o logo primeiro. */
+/* ==========================================================================
+   3. CABEÇALHO (HEADER) E NAVEGAÇÃO (NAV) COM FLEXBOX
+   Organiza a logo, o nome da loja e o acesso ao catálogo em todas as páginas.
+   ========================================================================== */
 header {
+    background-color: var(--cor-superficie);
+    border-bottom: 1px solid var(--cor-borda);
+    padding: 16px 32px;
+
+    /* Flexbox alinha os elementos lado a lado e centraliza verticalmente */
     display: flex;
+    justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 1rem;
-    padding: 1.25rem var(--margem);
-    border-bottom: 1px solid var(--linha);
+    gap: 16px;
 }
 
-header > img {
-    order: -1;
-    width: 3rem;
-    height: 3rem;
-    object-fit: contain;
+/* Sobrescreve o width="400" do HTML para manter a logo proporcional */
+header img {
+    width: 58px;
+    height: 58px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid var(--cor-destaque);
+    order: -1; /* Posiciona a logo à esquerda do título */
 }
 
-h1 {
-    flex: 1;
-    font-size: clamp(1.3rem, 3vw, 2rem);
-    letter-spacing: -0.035em;
+header h1 {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--cor-texto-principal);
+    margin-right: auto; /* Empurra o menu (quando dentro do header) para a direita */
 }
 
+/* Barra de navegação (funciona tanto dentro do header quanto logo abaixo dele) */
 nav {
     display: flex;
     align-items: center;
-    gap: 0.8rem;
+    gap: 14px;
+}
+
+/* Estilo extra quando o <nav> está fora do <header> (páginas internas) */
+body > nav {
+    background-color: var(--cor-superficie);
+    border-bottom: 1px solid var(--cor-borda);
+    padding: 12px 32px;
+    justify-content: space-between;
 }
 
 nav h2 {
-    color: var(--secundario);
-    font-size: 0.9rem;
-    font-weight: 500;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--cor-texto-suave);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
+/* Botão principal do menu ("Ver Produtos") */
 nav a {
-    display: inline-block;
-    padding: 0.65rem 1.1rem;
-    border-radius: 0.4rem;
-    background: var(--verde);
-    color: var(--branco);
-    font-weight: 650;
     text-decoration: none;
+    background-color: var(--cor-destaque);
+    color: #FFFFFF;
+    padding: 9px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-/* Interação com o catálogo
-   :hover escurece o botão quando o ponteiro passa sobre ele.
-   :focus desenha um contorno que indica o link selecionado, inclusive com Tab. */
-nav a:hover {
-    background: var(--verde-escuro);
-}
-
-nav a:focus {
-    outline: 3px solid var(--verde);
-    outline-offset: 4px;
-}
-
-/* Sobre nós e oferta
-   O limite em ch mantém o texto de apresentação confortável para leitura.
-   A faixa com borda verde destaca as condições de pagamento. */
+/* ==========================================================================
+   4. ÁREA PRINCIPAL (MAIN) E TÍTULOS DE SEÇÃO
+   Limita a largura máxima do conteúdo para manter a leitura confortável.
+   ========================================================================== */
 main {
-    margin-inline: var(--margem);
-    padding-block: clamp(2.25rem, 6vw, 4.5rem);
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 36px 20px;
 }
 
+/* Título principal de cada página ("Sobre nós", "Jogos", "Notebooks", etc.) */
 main > h2 {
-    margin-bottom: 1rem;
-    font-size: clamp(1.75rem, 4vw, 2.7rem);
-    letter-spacing: -0.04em;
+    font-size: 1.4rem;
+    color: var(--cor-texto-principal);
+    margin-top: 12px;
+    margin-bottom: 20px;
+    padding-left: 12px;
+    border-left: 4px solid var(--cor-destaque);
 }
 
 main > p {
-    max-width: 68ch;
-    color: var(--secundario);
+    color: var(--cor-texto-suave);
+    max-width: 820px;
+    margin-bottom: 16px;
 }
 
+/* Faixa de destaque para parcelamento e desconto na página inicial */
 main > p strong {
     display: inline-block;
-    margin-block: 1.25rem 0.5rem;
-    padding: 0.75rem 1rem;
-    border-left: 3px solid var(--verde);
-    background: var(--fundo-suave);
-    color: var(--verde);
+    background-color: var(--cor-superficie);
+    color: var(--cor-destaque);
+    border: 1px solid var(--cor-destaque);
+    padding: 12px 18px;
+    border-radius: 8px;
     font-size: 0.9rem;
+    margin-bottom: 20px;
 }
 
-p + h2 {
-    margin-top: 3rem;
-}
-
-/* Catálogo
-   No HTML, cada nome (li) vem seguido pela sua imagem (img).
-   A grade coloca os dois lado a lado. Os títulos ocupam as duas colunas. */
-main > ul {
-    padding: 0;
+/* ==========================================================================
+   5. CARTÕES DO CATÁLOGO (JOGOS, NOTEBOOKS E CONSOLES) — FLEXBOX + BOX MODEL
+   Estiliza as listas <ul><li>...</li></ul> deixando evidente o que é:
+   1. Nome do produto (<h3>)
+   2. Vitrine da foto (<img>)
+   3. Preço em destaque (<p>)
+   ========================================================================== */
+main > ul:has(> li) {
     list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
 }
 
-#jogo, #eletronico {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) clamp(6rem, 25vw, 14rem);
-    align-items: stretch;
+/* Cada <li> vira um cartão individual e proporcional */
+main > ul:has(> li) > li {
+    background-color: var(--cor-cartao);
+    border: 1px solid var(--cor-borda);
+    border-radius: 12px;
+    padding: 18px;
+    flex: 1 1 250px; /* Cria colunas flexíveis de no mínimo 250px */
+
+    /* Flexbox interno em coluna para alinhar título, foto e preço */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
 }
 
-#eletronico {
-    margin-top: 2.5rem;
+/* Nome do produto dentro do cartão */
+main > ul:has(> li) > li h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--cor-texto-principal);
+    margin-bottom: 14px;
+    line-height: 1.4;
 }
 
-section > h3, section > h4 {
-    grid-column: 1 / -1;
+/* Imagem do produto (sobrescreve width="200" do HTML com altura padrão) */
+main > ul:has(> li) > li img {
+    width: 100%;
+    height: 190px;
+    object-fit: contain; /* Mostra o produto inteiro sem cortar */
+    background-color: var(--cor-fundo-imagem);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 14px;
 }
 
-section > h3:first-child {
-    padding-block: 0.8rem;
-    border-block: 1px solid var(--linha);
-    font-size: 1.5rem;
-}
-
-/* Consoles e celulares são categorias. Sony, Microsoft e Nintendo são marcas. */
-#eletronico > h3 + h3, #eletronico > h4:last-of-type {
-    margin-top: 1.5rem;
+/* Preço do produto claramente destacado no rodapé do cartão */
+main > ul:has(> li) > li p {
     font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--cor-destaque);
+    padding-top: 10px;
+    border-top: 1px solid var(--cor-borda);
 }
 
-#eletronico > h4:not(:last-of-type) {
-    margin-top: 1rem;
-    color: var(--verde);
-    font-size: 0.8rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+/* ==========================================================================
+   6. CARTÕES DA PÁGINA DE CELULARES — LADO A LADO (3 COLUNAS)
+   Organiza os grupos de <h3> + <img> + <p> em 3 colunas alinhadas lado a lado,
+   mantendo título, imagem e preço nivelados na mesma linha horizontal.
+   ========================================================================== */
+main > ul:has(> h3) {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-flow: dense;
+    column-gap: 22px;
 }
 
-/* Cartões e box model
-   O nome e a foto formam as duas metades de cada cartão.
-   margin separa um cartão do próximo, border desenha o contorno
-   e padding deixa espaço entre a borda e o conteúdo. */
-section > li, section > img {
-    margin-top: 0.65rem;
-    border: 1px solid var(--linha);
-    background: var(--branco);
-}
-
-section > li {
+/* Distribui cada trio (título, foto, preço) nas 3 colunas lado a lado */
+main > ul:has(> h3) > :nth-child(9n + 1),
+main > ul:has(> h3) > :nth-child(9n + 2),
+main > ul:has(> h3) > :nth-child(9n + 3) {
     grid-column: 1;
+}
+
+main > ul:has(> h3) > :nth-child(9n + 4),
+main > ul:has(> h3) > :nth-child(9n + 5),
+main > ul:has(> h3) > :nth-child(9n + 6) {
+    grid-column: 2;
+}
+
+main > ul:has(> h3) > :nth-child(9n + 7),
+main > ul:has(> h3) > :nth-child(9n + 8),
+main > ul:has(> h3) > :nth-child(9n + 9) {
+    grid-column: 3;
+}
+
+/* Topo do cartão de celular: Nome do aparelho */
+main > ul:has(> h3) > h3 {
+    background-color: var(--cor-cartao);
+    border: 1px solid var(--cor-borda);
+    border-bottom: none;
+    border-radius: 12px 12px 0 0;
+    padding: 18px 18px 12px 18px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--cor-texto-principal);
     display: flex;
     align-items: center;
-    padding: 1rem 1.25rem;
-    border-right: 0;
-    border-radius: 0.65rem 0 0 0.65rem;
-    font-size: clamp(1rem, 2vw, 1.25rem);
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+/* Meio do cartão de celular: Vitrine da foto */
+main > ul:has(> h3) > img {
+    width: 100%;
+    height: 190px;
+    object-fit: contain;
+    background-color: var(--cor-fundo-imagem);
+    border-left: 1px solid var(--cor-borda);
+    border-right: 1px solid var(--cor-borda);
+    padding: 14px;
+    transition: border-color 0.2s ease;
+}
+
+/* Base do cartão de celular: Preço em destaque */
+main > ul:has(> h3) > p {
+    background-color: var(--cor-cartao);
+    border: 1px solid var(--cor-borda);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    padding: 12px 18px 18px 18px;
+    margin-bottom: 22px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--cor-destaque);
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+/* ==========================================================================
+   7. PÁGINA DO CATÁLOGO (catalogo.html) — BOTÕES DE CATEGORIA COM FLEXBOX
+   Diferencia o botão de "Voltar" dos cartões de categorias da loja.
+   ========================================================================== */
+main:has(> a) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+}
+
+/* Cartões das categorias (Consoles, Celulares, Notebooks, Acessórios, Jogos) */
+main > a {
+    text-decoration: none;
+    background-color: var(--cor-cartao);
+    color: var(--cor-texto-principal);
+    border: 1px solid var(--cor-borda);
+    border-radius: 12px;
+    padding: 32px 24px;
+    flex: 1 1 240px;
+    text-align: center;
+    font-size: 1.15rem;
+    font-weight: 700;
+    transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+/* Diferencia visualmente o link "Voltar para a página inicial" */
+main > a[href="index.html"] {
+    flex-basis: 100%;
+    background-color: transparent;
+    border: 1px solid var(--cor-destaque);
+    color: var(--cor-destaque);
+    padding: 14px 20px;
+    font-size: 0.95rem;
+}
+
+/* ==========================================================================
+   8. SEÇÕES DA PÁGINA INICIAL (index.html)
+   Empilha Jogos e Eletrônicos em blocos proporcionais e alinha os destaques.
+   ========================================================================== */
+main > ul:has(> section) {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+main > ul > section {
+    background-color: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: 14px;
+    padding: 28px;
+}
+
+section h3 {
+    font-size: 1.25rem;
+    color: var(--cor-texto-principal);
+    padding-bottom: 10px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+#eletronico h3:nth-of-type(2) {
+    font-size: 1rem;
+    color: var(--cor-destaque);
+    border-bottom: none;
+    margin-bottom: 4px;
+    padding-bottom: 0;
+}
+
+/* Etiquetas de marca (Sony, Microsoft, Nintendo, Celulares) */
+section h4 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--cor-destaque);
+    background-color: rgba(59, 130, 246, 0.12);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    padding: 5px 12px;
+    border-radius: 6px;
+    width: fit-content;
+    margin-top: 12px;
+    margin-bottom: 8px;
+}
+
+/* Alinhamento simétrico dos destaques de Jogos (2 colunas) */
+#jogo {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 24px;
+}
+
+#jogo h3 { grid-column: 1 / -1; }
+#jogo li { grid-row: 2; }
+#jogo li + img { grid-row: 3; }
+
+/* Alinhamento simétrico dos destaques de Eletrônicos (3 consoles + 2 celulares) */
+#eletronico {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 20px;
+}
+
+#eletronico h3:nth-of-type(1) { grid-column: 1 / -1; grid-row: 1; }
+#eletronico h3:nth-of-type(2) { grid-column: 1 / -1; grid-row: 2; }
+
+#eletronico h4:nth-of-type(1) { grid-column: 1; grid-row: 3; }
+#eletronico h4:nth-of-type(2) { grid-column: 2; grid-row: 3; }
+#eletronico h4:nth-of-type(3) { grid-column: 3; grid-row: 3; }
+
+#eletronico li:nth-of-type(1) { grid-column: 1; grid-row: 4; }
+#eletronico li:nth-of-type(2) { grid-column: 2; grid-row: 4; }
+#eletronico li:nth-of-type(3) { grid-column: 3; grid-row: 4; }
+
+#eletronico li:nth-of-type(1) + img { grid-column: 1; grid-row: 5; }
+#eletronico li:nth-of-type(2) + img { grid-column: 2; grid-row: 5; }
+#eletronico li:nth-of-type(3) + img { grid-column: 3; grid-row: 5; }
+
+#eletronico h4:nth-of-type(4) {
+    grid-column: 1 / -1;
+    grid-row: 6;
+    margin-top: 26px;
+}
+
+#eletronico li:nth-of-type(4) { grid-column: 1; grid-row: 7; }
+#eletronico li:nth-of-type(5) { grid-column: 2; grid-row: 7; }
+
+#eletronico li:nth-of-type(4) + img { grid-column: 1; grid-row: 8; }
+#eletronico li:nth-of-type(5) + img { grid-column: 2; grid-row: 8; }
+
+/* Visual dos cartões na página inicial */
+section li {
+    background-color: var(--cor-cartao);
+    border: 1px solid var(--cor-borda);
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+    padding: 14px 16px;
+    font-weight: 600;
+    color: var(--cor-texto-principal);
+    transition: border-color 0.2s ease;
+}
+
+section li + img {
+    display: block;
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    background-color: var(--cor-fundo-imagem);
+    border: 1px solid var(--cor-borda);
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    padding: 14px;
+    transition: border-color 0.2s ease;
+}
+
+/* ==========================================================================
+   9. INTERAÇÕES (:hover e :focus)
+   Dá feedback visual ao passar o mouse (:hover) ou navegar por teclado (:focus).
+   ========================================================================== */
+nav a:hover,
+main > a[href="index.html"]:hover {
+    background-color: var(--cor-destaque-hover);
+    color: #FFFFFF;
+    transform: translateY(-2px);
+}
+
+main > ul:has(> li) > li:hover,
+main > a:hover {
+    border-color: var(--cor-destaque);
+    background-color: var(--cor-cartao-hover);
+    transform: translateY(-4px);
+}
+
+/* Destaca o cartão inteiro de celular ao passar o mouse no título, foto ou preço */
+main > ul:has(> h3) > h3:hover,
+main > ul:has(> h3) > h3:hover + img,
+main > ul:has(> h3) > h3:hover + img + p,
+main > ul:has(> h3) > h3:has(+ img:hover),
+main > ul:has(> h3) > img:hover,
+main > ul:has(> h3) > img:hover + p,
+main > ul:has(> h3) > h3:has(+ img + p:hover),
+main > ul:has(> h3) > img:has(+ p:hover),
+main > ul:has(> h3) > p:hover {
+    border-color: var(--cor-destaque);
+}
+
+section li:hover,
+section li:hover + img,
+section li + img:hover {
+    border-color: var(--cor-destaque);
+}
+
+/* Destaque obrigatório para acessibilidade via tecla TAB (:focus) */
+a:focus {
+    outline: 3px solid var(--cor-destaque);
+    outline-offset: 3px;
+}
+
+/* ==========================================================================
+   10. RODAPÉ (FOOTER) COM FLEXBOX
+   Organiza os créditos e informações de contato no final da página.
+   ========================================================================== */
+footer {
+    background-color: var(--cor-superficie);
+    border-top: 1px solid var(--cor-borda);
+    padding: 28px 20px;
+    margin-top: 48px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+}
+
+footer p {
+    font-size: 0.9rem;
+    color: var(--cor-texto-suave);
+}
+
+footer p:first-child {
+    color: var(--cor-texto-principal);
     font-weight: 600;
 }
 
+/* ==========================================================================
+   11. RESPONSIVIDADE PARA CELULAR (ATÉ 600px)
+   Adapta cabeçalho, menus e vitrines para telas pequenas em coluna única.
+   ========================================================================== */
+@media (max-width: 600px) {
+    header,
+    body > nav {
+        flex-direction: column;
+        text-align: center;
+        padding: 18px 16px;
+    }
+
+    header h1 {
+        margin-right: 0;
+        font-size: 1.3rem;
+    }
+
+    nav {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    /* Botões ocupam 100% da largura no celular para facilitar o toque */
+    nav a,
+    main > a {
+        width: 100%;
+        flex-basis: 100%;
+    }
+
+    main > ul:has(> li) > li {
+        flex-basis: 100%;
+    }
+
+    /* Volta os celulares e destaques da home para 1 coluna no mobile */
+    main > ul:has(> h3),
+    #jogo,
+    #eletronico {
+        display: flex;
+        flex-direction: column;
+    }
+
+    section li + img {
+        margin-bottom: 14px;
+    }
+}
