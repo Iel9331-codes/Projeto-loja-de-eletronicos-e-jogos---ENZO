@@ -31,6 +31,13 @@ function criarCartao(produto) {
     botao.addEventListener("click", function () {
         adicionarAoPedido(produto);
     });
+    
+    if (produto.imagem) {
+    const foto = document.createElement("img");
+    foto.src = produto.imagem;
+    foto.alt = produto.nome;
+    cartao.appendChild(foto);
+}
     // Coloque os elementos dentro do cartão, na ordem em que devem aparecer.
     cartao.appendChild(nome);
     cartao.appendChild(descricao);
