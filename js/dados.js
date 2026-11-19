@@ -8,12 +8,10 @@ const produtos = [
     { nome: "Lenovo IdeaPad Slim 3", categoria: "notebooks", preco: 3134.05, descricao: "8 GB de RAM e SSD de 256 GB." },
     { nome: "Logitech M170", categoria: "acessorios", preco: 62.91, descricao: "Mouse sem fio." }
 ];
-
 // Os cálculos usam centavos. Por exemplo, R$ 3,50 vira o inteiro 350.
 function emCentavos(preco) {
     return Math.round(preco * 100);
 }
-
 // Para mostrar na tela, convertemos os centavos de volta para reais.
 function emReais(centavos) {
     return (centavos / 100).toLocaleString("pt-BR", {
@@ -21,18 +19,14 @@ function emReais(centavos) {
         currency: "BRL"
     });
 }
-
 // localStorage guarda os produtos cadastrados neste navegador.
 // O prefixo identifica quais registros pertencem à loja.
 const prefixo = "ze-games.produto.";
-
 function salvarProduto(produto) {
     const chave = prefixo + crypto.randomUUID();
-
     // JSON.stringify transforma o objeto em texto para salvá-lo.
     localStorage.setItem(chave, JSON.stringify(produto));
 }
-
 function lerCadastros() {
     for (let i = 0; i < localStorage.length; i++) {
         const chave = localStorage.key(i);
@@ -44,7 +38,6 @@ function lerCadastros() {
         }
     }
 }
-
 try {
     lerCadastros();
 } catch {

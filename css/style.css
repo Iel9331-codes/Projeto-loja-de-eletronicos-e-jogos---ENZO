@@ -1,24 +1,21 @@
 /* ==========================================================================
    1. VARIÁVEIS DE CORES (:root)
-   Centraliza toda a paleta minimalista (preto, grafite, branco e azul).
-   Para mudar a cor de destaque ou o fundo do site inteiro, altere só aqui.
    ========================================================================== */
 :root {
-    --cor-fundo: #09090B;            /* Fundo preto principal da página */
-    --cor-superficie: #121215;       /* Fundo do cabeçalho, seções, formulário e rodapé */
-    --cor-cartao: #18181B;           /* Fundo interno dos cartões e campos de input */
-    --cor-cartao-hover: #202025;     /* Fundo do cartão/campo ao interagir */
-    --cor-fundo-imagem: #FFFFFF;     /* Fundo claro para destacar fotos de produtos */
-    --cor-texto-principal: #F4F4F5;  /* Branco suave para títulos, rótulos e textos */
-    --cor-texto-suave: #A1A1AA;      /* Cinza claro para textos secundários */
-    --cor-destaque: #3B82F6;         /* Azul principal (botões, preços e bordas) */
-    --cor-destaque-hover: #2563EB;   /* Azul mais intenso para hover e focus */
-    --cor-borda: #27272A;            /* Borda sutil para delimitar cada bloco */
+    --cor-fundo: #09090B;
+    --cor-superficie: #121215;
+    --cor-cartao: #18181B;
+    --cor-cartao-hover: #222226;
+    --cor-imagem: #FFFFFF;
+    --cor-texto: #F4F4F5;
+    --cor-texto-suave: #A1A1AA;
+    --cor-destaque: #3B82F6;
+    --cor-destaque-hover: #2563EB;
+    --cor-perigo: #EF4444;
+    --cor-borda: #27272A;
 }
 /* ==========================================================================
    2. RESET E BOX MODEL GLOBAL
-   Zera margens padrão do navegador e ativa 'border-box' para que padding
-   e border não somem largura extra e não quebrem o tamanho dos cartões.
    ========================================================================== */
 * {
     margin: 0;
@@ -26,319 +23,243 @@
     box-sizing: border-box;
 }
 body {
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
     background-color: var(--cor-fundo);
-    color: var(--cor-texto-principal);
+    color: var(--cor-texto);
     line-height: 1.6;
 }
 /* ==========================================================================
-   3. CABEÇALHO (HEADER) E NAVEGAÇÃO (NAV) COM FLEXBOX
-   Organiza a logo, o nome da loja e o acesso ao catálogo em todas as páginas.
+   3. CABEÇALHO E NAVEGAÇÃO (FLEXBOX)
    ========================================================================== */
 header {
     background-color: var(--cor-superficie);
     border-bottom: 1px solid var(--cor-borda);
-    padding: 16px 32px;
-    /* Flexbox alinha os elementos lado a lado e centraliza verticalmente */
+    padding: 16px 24px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     flex-wrap: wrap;
     gap: 16px;
 }
-/* Sobrescreve o width="400" do HTML para manter a logo proporcional */
 header img {
-    width: 58px;
-    height: 58px;
+    width: 56px;
+    height: 56px;
     object-fit: cover;
     border-radius: 50%;
     border: 2px solid var(--cor-destaque);
-    order: -1; /* Posiciona a logo à esquerda do título */
+    order: -1;
 }
-header h1 {
-    font-size: 1.45rem;
-    font-weight: 700;
-    color: var(--cor-texto-principal);
-    margin-right: auto; /* Empurra o menu (quando dentro do header) para a direita */
+header h1,
+header h2 {
+    font-size: 1.4rem;
+    margin-right: auto;
 }
-/* Barra de navegação (funciona tanto dentro do header quanto logo abaixo dele) */
 nav {
+    background-color: var(--cor-superficie);
+    padding: 12px 24px;
+    border-bottom: 1px solid var(--cor-borda);
     display: flex;
     align-items: center;
-    gap: 14px;
+    flex-wrap: wrap;
+    gap: 10px;
 }
-/* Estilo extra quando o <nav> está fora do <header> (páginas internas) */
-body > nav {
-    background-color: var(--cor-superficie);
-    border-bottom: 1px solid var(--cor-borda);
-    padding: 12px 32px;
-    justify-content: space-between;
+header nav {
+    border: none;
+    padding: 0;
+}
+main nav {
+    border: 1px solid var(--cor-borda);
+    border-radius: 10px;
+    margin-bottom: 24px;
 }
 nav h2 {
     font-size: 0.85rem;
-    font-weight: 600;
     color: var(--cor-texto-suave);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    margin-right: auto;
 }
-/* Botão principal do menu ("Ver Produtos") */
 nav a {
     text-decoration: none;
     background-color: var(--cor-destaque);
     color: #FFFFFF;
-    padding: 9px 18px;
+    padding: 8px 16px;
     border-radius: 8px;
-    font-weight: 600;
     font-size: 0.9rem;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+    font-weight: 600;
+    transition: background-color 0.2s, transform 0.2s;
 }
 /* ==========================================================================
-   4. ÁREA PRINCIPAL (MAIN) E TÍTULOS DE SEÇÃO
-   Limita a largura máxima do conteúdo para manter a leitura confortável.
+   4. ÁREA PRINCIPAL E SEÇÕES
    ========================================================================== */
 main {
-    max-width: 1140px;
+    max-width: 1120px;
     margin: 0 auto;
-    padding: 36px 20px;
+    padding: 32px 20px;
 }
-/* Título principal de cada página ("Sobre nós", "Jogos", "Notebooks", etc.) */
-main > h2 {
+main > h2,
+section > h2 {
     font-size: 1.4rem;
-    color: var(--cor-texto-principal);
-    margin-top: 12px;
     margin-bottom: 20px;
     padding-left: 12px;
     border-left: 4px solid var(--cor-destaque);
 }
 main > p {
     color: var(--cor-texto-suave);
-    max-width: 820px;
     margin-bottom: 16px;
 }
-/* Faixa de destaque para parcelamento e desconto na página inicial */
 main > p strong {
     display: inline-block;
     background-color: var(--cor-superficie);
     color: var(--cor-destaque);
     border: 1px solid var(--cor-destaque);
-    padding: 12px 18px;
+    padding: 10px 16px;
     border-radius: 8px;
-    font-size: 0.9rem;
-    margin-bottom: 20px;
+}
+section {
+    background-color: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
 }
 /* ==========================================================================
-   5. CARTÕES DO CATÁLOGO (JOGOS, NOTEBOOKS E CONSOLES) — FLEXBOX + BOX MODEL
-   Estiliza as listas <ul><li>...</li></ul> deixando evidente o que é:
-   1. Nome do produto (<h3>)
-   2. Vitrine da foto (<img>)
-   3. Preço em destaque (<p>)
+   5. CARTÕES LADO A LADO (CATÁLOGO, CONSOLES, JOGOS, NOTEBOOKS, ACESSÓRIOS)
    ========================================================================== */
-main > ul:has(> li) {
+main > ul:has(> li),
+#lista-produtos {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
-    gap: 22px;
+    gap: 20px;
 }
-/* Cada <li> vira um cartão individual e proporcional */
-main > ul:has(> li) > li {
+main > ul:has(> li) > li,
+.cartao {
     background-color: var(--cor-cartao);
     border: 1px solid var(--cor-borda);
     border-radius: 12px;
-    padding: 18px;
-    flex: 1 1 250px; /* Cria colunas flexíveis de no mínimo 250px */
-    /* Flexbox interno em coluna para alinhar título, foto e preço */
+    padding: 16px;
+    flex: 1 1 240px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+    gap: 12px;
+    transition: border-color 0.2s, background-color 0.2s, transform 0.2s;
 }
-/* Nome do produto dentro do cartão */
-main > ul:has(> li) > li h3 {
+main > ul:has(> li) > li h3,
+.cartao h3 {
     font-size: 1rem;
-    font-weight: 600;
-    color: var(--cor-texto-principal);
-    margin-bottom: 14px;
-    line-height: 1.4;
+    color: var(--cor-texto);
 }
-/* Imagem do produto (sobrescreve width="200" do HTML com altura padrão) */
-main > ul:has(> li) > li img {
+.cartao p {
+    font-size: 0.88rem;
+    color: var(--cor-texto-suave);
+}
+main > ul:has(> li) > li img,
+.cartao img {
     width: 100%;
-    height: 190px;
-    object-fit: contain; /* Mostra o produto inteiro sem cortar */
-    background-color: var(--cor-fundo-imagem);
+    height: 180px;
+    object-fit: contain;
+    background-color: var(--cor-imagem);
     border-radius: 8px;
-    padding: 12px;
-    margin-bottom: 14px;
+    padding: 10px;
 }
-/* Preço do produto claramente destacado no rodapé do cartão */
-main > ul:has(> li) > li p {
-    font-size: 1.2rem;
+.cartao img {
+    order: -1;
+}
+main > ul:has(> li) > li p,
+.cartao strong {
+    font-size: 1.15rem;
     font-weight: 700;
     color: var(--cor-destaque);
-    padding-top: 10px;
+    padding-top: 8px;
     border-top: 1px solid var(--cor-borda);
+    margin-top: auto;
 }
 /* ==========================================================================
-   6. CARTÕES DA PÁGINA DE CELULARES — LADO A LADO (3 COLUNAS)
-   Organiza os grupos de <h3> + <img> + <p> em 3 colunas alinhadas lado a lado,
-   mantendo título, imagem e preço nivelados na mesma linha horizontal.
+   6. CARTÕES LADO A LADO NA PÁGINA DE CELULARES (3 COLUNAS)
    ========================================================================== */
 main > ul:has(> h3) {
     list-style: none;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-auto-flow: dense;
-    column-gap: 22px;
+    column-gap: 20px;
 }
-/* Distribui cada trio (título, foto, preço) nas 3 colunas lado a lado */
 main > ul:has(> h3) > :nth-child(9n + 1),
 main > ul:has(> h3) > :nth-child(9n + 2),
-main > ul:has(> h3) > :nth-child(9n + 3) {
-    grid-column: 1;
-}
+main > ul:has(> h3) > :nth-child(9n + 3) { grid-column: 1; }
+
 main > ul:has(> h3) > :nth-child(9n + 4),
 main > ul:has(> h3) > :nth-child(9n + 5),
-main > ul:has(> h3) > :nth-child(9n + 6) {
-    grid-column: 2;
-}
+main > ul:has(> h3) > :nth-child(9n + 6) { grid-column: 2; }
+
 main > ul:has(> h3) > :nth-child(9n + 7),
 main > ul:has(> h3) > :nth-child(9n + 8),
-main > ul:has(> h3) > :nth-child(9n + 9) {
-    grid-column: 3;
-}
-/* Topo do cartão de celular: Nome do aparelho */
+main > ul:has(> h3) > :nth-child(9n + 9) { grid-column: 3; }
+
 main > ul:has(> h3) > h3 {
     background-color: var(--cor-cartao);
     border: 1px solid var(--cor-borda);
     border-bottom: none;
     border-radius: 12px 12px 0 0;
-    padding: 18px 18px 12px 18px;
+    padding: 16px 16px 10px;
     font-size: 1rem;
-    font-weight: 600;
-    color: var(--cor-texto-principal);
-    display: flex;
-    align-items: center;
-    transition: border-color 0.2s ease, background-color 0.2s ease;
 }
-/* Meio do cartão de celular: Vitrine da foto */
 main > ul:has(> h3) > img {
     width: 100%;
-    height: 190px;
+    height: 180px;
     object-fit: contain;
-    background-color: var(--cor-fundo-imagem);
+    background-color: var(--cor-imagem);
     border-left: 1px solid var(--cor-borda);
     border-right: 1px solid var(--cor-borda);
-    padding: 14px;
-    transition: border-color 0.2s ease;
+    padding: 12px;
 }
-/* Base do cartão de celular: Preço em destaque */
 main > ul:has(> h3) > p {
     background-color: var(--cor-cartao);
     border: 1px solid var(--cor-borda);
     border-top: none;
     border-radius: 0 0 12px 12px;
-    padding: 12px 18px 18px 18px;
-    margin-bottom: 22px;
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--cor-destaque);
-    transition: border-color 0.2s ease, background-color 0.2s ease;
-}
-/* ==========================================================================
-   7. PÁGINA DO CATÁLOGO (catalogo.html) — BOTÕES DE CATEGORIA COM FLEXBOX
-   Diferencia o botão de "Voltar" dos cartões de categorias da loja.
-   ========================================================================== */
-main:has(> a) {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 18px;
-}
-/* Cartões das categorias (Consoles, Celulares, Notebooks, Acessórios, Jogos) */
-main > a {
-    text-decoration: none;
-    background-color: var(--cor-cartao);
-    color: var(--cor-texto-principal);
-    border: 1px solid var(--cor-borda);
-    border-radius: 12px;
-    padding: 32px 24px;
-    flex: 1 1 240px;
-    text-align: center;
+    padding: 10px 16px 16px;
+    margin-bottom: 20px;
     font-size: 1.15rem;
     font-weight: 700;
-    transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
-}
-/* Diferencia visualmente o link "Voltar para a página inicial" */
-main > a[href="index.html"] {
-    flex-basis: 100%;
-    background-color: transparent;
-    border: 1px solid var(--cor-destaque);
     color: var(--cor-destaque);
-    padding: 14px 20px;
-    font-size: 0.95rem;
 }
 /* ==========================================================================
-   8. SEÇÕES DA PÁGINA INICIAL (index.html)
-   Empilha Jogos e Eletrônicos em blocos proporcionais e alinha os destaques.
+   7. DESTAQUES LADO A LADO NA PÁGINA INICIAL (index.html)
    ========================================================================== */
 main > ul:has(> section) {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 32px;
-}
-main > ul > section {
-    background-color: var(--cor-superficie);
-    border: 1px solid var(--cor-borda);
-    border-radius: 14px;
-    padding: 28px;
+    gap: 24px;
 }
 section h3 {
-    font-size: 1.25rem;
-    color: var(--cor-texto-principal);
-    padding-bottom: 10px;
+    font-size: 1.2rem;
+    padding-bottom: 8px;
     margin-bottom: 12px;
     border-bottom: 1px solid var(--cor-borda);
 }
-#eletronico h3:nth-of-type(2) {
-    font-size: 1rem;
-    color: var(--cor-destaque);
-    border-bottom: none;
-    margin-bottom: 4px;
-    padding-bottom: 0;
-}
-/* Etiquetas de marca (Sony, Microsoft, Nintendo, Celulares) */
 section h4 {
-    font-size: 0.8rem;
-    font-weight: 700;
+    font-size: 0.85rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
     color: var(--cor-destaque);
-    background-color: rgba(59, 130, 246, 0.12);
-    border: 1px solid rgba(59, 130, 246, 0.3);
-    padding: 5px 12px;
-    border-radius: 6px;
-    width: fit-content;
-    margin-top: 12px;
-    margin-bottom: 8px;
+    margin: 12px 0 8px;
 }
-/* Alinhamento simétrico dos destaques de Jogos (2 colunas) */
 #jogo {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    column-gap: 24px;
+    column-gap: 20px;
 }
 #jogo h3 { grid-column: 1 / -1; }
 #jogo li { grid-row: 2; }
 #jogo li + img { grid-row: 3; }
-/* Alinhamento simétrico dos destaques de Eletrônicos (3 consoles + 2 celulares) */
 #eletronico {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     column-gap: 20px;
 }
-#eletronico h3:nth-of-type(1) { grid-column: 1 / -1; grid-row: 1; }
-#eletronico h3:nth-of-type(2) { grid-column: 1 / -1; grid-row: 2; }
-
+#eletronico h3 { grid-column: 1 / -1; border: none; padding: 0; }
 #eletronico h4:nth-of-type(1) { grid-column: 1; grid-row: 3; }
 #eletronico h4:nth-of-type(2) { grid-column: 2; grid-row: 3; }
 #eletronico h4:nth-of-type(3) { grid-column: 3; grid-row: 3; }
@@ -346,258 +267,218 @@ section h4 {
 #eletronico li:nth-of-type(1) { grid-column: 1; grid-row: 4; }
 #eletronico li:nth-of-type(2) { grid-column: 2; grid-row: 4; }
 #eletronico li:nth-of-type(3) { grid-column: 3; grid-row: 4; }
-
 #eletronico li:nth-of-type(1) + img { grid-column: 1; grid-row: 5; }
 #eletronico li:nth-of-type(2) + img { grid-column: 2; grid-row: 5; }
 #eletronico li:nth-of-type(3) + img { grid-column: 3; grid-row: 5; }
 
-#eletronico h4:nth-of-type(4) {
-    grid-column: 1 / -1;
-    grid-row: 6;
-    margin-top: 26px;
-}
+#eletronico h4:nth-of-type(4) { grid-column: 1 / -1; grid-row: 6; margin-top: 20px; }
 #eletronico li:nth-of-type(4) { grid-column: 1; grid-row: 7; }
 #eletronico li:nth-of-type(5) { grid-column: 2; grid-row: 7; }
 #eletronico li:nth-of-type(4) + img { grid-column: 1; grid-row: 8; }
 #eletronico li:nth-of-type(5) + img { grid-column: 2; grid-row: 8; }
-/* Visual dos cartões na página inicial */
 section li {
     background-color: var(--cor-cartao);
     border: 1px solid var(--cor-borda);
     border-bottom: none;
     border-radius: 10px 10px 0 0;
-    padding: 14px 16px;
+    padding: 12px 16px;
     font-weight: 600;
-    color: var(--cor-texto-principal);
-    transition: border-color 0.2s ease;
 }
 section li + img {
-    display: block;
     width: 100%;
-    height: 200px;
+    height: 190px;
     object-fit: contain;
-    background-color: var(--cor-fundo-imagem);
+    background-color: var(--cor-imagem);
     border: 1px solid var(--cor-borda);
     border-top: none;
     border-radius: 0 0 10px 10px;
-    padding: 14px;
-    transition: border-color 0.2s ease;
+    padding: 12px;
 }
 /* ==========================================================================
-   9. PÁGINA DE CADASTRO DE PRODUTOS (FORMULÁRIO + BOTÃO VOLTAR)
-   Estiliza a logo (body > img), o título (body > h2), o cartão do formulário
-   (<form>) e o link de retorno (body > a) alinhados na mesma largura.
+   8. CARRINHO, FILTRO E BOTÕES
    ========================================================================== */
-/* Logo centralizada no topo da página de cadastro (sobrescreve width="300") */
-body > img {
-    display: block;
-    width: 86px;
-    height: 86px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 2px solid var(--cor-destaque);
-    margin: 36px auto 16px auto;
-}
-/* Título principal centralizado acima do formulário */
-body > h2 {
-    max-width: 540px;
-    margin: 0 auto 24px auto;
-    padding: 0 20px;
-    text-align: center;
-    font-size: 1.45rem;
-    color: var(--cor-texto-principal);
-}
-/* Cartão principal que envolve todos os campos do formulário */
-form {
-    background-color: var(--cor-superficie);
-    border: 1px solid var(--cor-borda);
-    border-radius: 14px;
-    max-width: 540px;
-    margin: 0 auto 48px auto;
-    padding: 32px;
-    /* Flexbox em coluna para distribuir os blocos de entrada com espaçamento igual */
+#itens-pedido {
+    list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 18px;
-}
-/* Aproxima o formulário do botão "voltar a pagina inicial" logo abaixo dele */
-form:has(+ a) {
+    gap: 8px;
     margin-bottom: 16px;
 }
-/* Cada <p> agrupa o rótulo (label) e seu campo (input/textarea/select) */
-form p {
-    display: flex;
-    flex-direction: column;
-}
-/* Esconde o <br> do HTML para que o Flexbox controle o espaçamento exato */
-form br {
-    display: none;
-}
-/* Rótulo explicativo acima de cada campo */
-form label {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--cor-texto-principal);
-    margin-bottom: 8px;
-}
-/* Campos de texto, número, área de descrição e seletor de categoria */
-form input,
-form textarea,
-form select {
-    width: 100%;
+#itens-pedido li {
     background-color: var(--cor-cartao);
-    color: var(--cor-texto-principal);
+    border: 1px solid var(--cor-borda);
+    border-left: 4px solid var(--cor-destaque);
+    border-radius: 8px;
+    padding: 10px 14px;
+}
+#pedido,
+#resumo {
+    background-color: var(--cor-cartao);
     border: 1px solid var(--cor-borda);
     border-radius: 8px;
-    padding: 12px 14px;
-    font-family: inherit;
-    font-size: 0.95rem;
-    transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    padding: 12px 16px;
+    font-weight: 600;
+    margin-bottom: 16px;
 }
-form textarea {
-    resize: vertical;
-    min-height: 95px;
-}
-/* Botão principal de envio ("Cadastrar produto") */
-form button {
+button {
     background-color: var(--cor-destaque);
     color: #FFFFFF;
     border: none;
     border-radius: 8px;
-    padding: 14px 20px;
-    font-size: 1rem;
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 6px;
-    transition: background-color 0.2s ease, transform 0.2s ease;
-}
-/* Botão secundário "voltar a pagina inicial" alinhado abaixo do formulário */
-body > a {
-    display: block;
-    max-width: 540px;
-    margin: 0 auto 48px auto;
-    padding: 13px 20px;
-    text-align: center;
-    text-decoration: none;
+    padding: 12px 18px;
+    font-family: inherit;
     font-size: 0.95rem;
     font-weight: 600;
-    text-transform: capitalize;
-    color: var(--cor-destaque);
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+#esvaziar-carrinho {
     background-color: transparent;
+    border: 1px solid var(--cor-perigo);
+    color: var(--cor-perigo);
+}
+#esvaziar-carrinho:disabled {
+    border-color: var(--cor-borda);
+    color: var(--cor-texto-suave);
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+/* ==========================================================================
+   9. FORMULÁRIOS, RESULTADO E RODAPÉ
+   ========================================================================== */
+form {
+    background-color: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: 12px;
+    max-width: 520px;
+    margin: 0 auto 24px auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+form br {
+    display: none;
+}
+label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+input,
+select,
+textarea {
+    width: 100%;
+    max-width: 520px;
+    background-color: var(--cor-cartao);
+    color: var(--cor-texto);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+}
+form input,
+form select,
+form textarea {
+    margin-bottom: 0;
+}
+#resultado {
+    max-width: 520px;
+    margin: 0 auto 24px auto;
+    padding: 14px 18px;
+    background-color: var(--cor-cartao);
     border: 1px solid var(--cor-destaque);
     border-radius: 8px;
-    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    font-weight: 600;
 }
-/* ==========================================================================
-   10. INTERAÇÕES (:hover e :focus)
-   Dá feedback visual ao passar o mouse (:hover) ou navegar por teclado (:focus).
-   ========================================================================== */
-nav a:hover,
-main > a[href="index.html"]:hover,
-body > a:hover,
-form button:hover {
-    background-color: var(--cor-destaque-hover);
-    border-color: var(--cor-destaque-hover);
-    color: #FFFFFF;
-    transform: translateY(-2px);
+#resultado:empty {
+    display: none;
 }
-main > ul:has(> li) > li:hover,
-main > a:hover {
-    border-color: var(--cor-destaque);
-    background-color: var(--cor-cartao-hover);
-    transform: translateY(-4px);
+body > a {
+    display: block;
+    max-width: 520px;
+    margin: 0 auto 32px auto;
+    padding: 12px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--cor-destaque);
+    border: 1px solid var(--cor-destaque);
+    border-radius: 8px;
+    font-weight: 600;
 }
-/* Destaca o cartão inteiro de celular ao passar o mouse no título, foto ou preço */
-main > ul:has(> h3) > h3:hover,
-main > ul:has(> h3) > h3:hover + img,
-main > ul:has(> h3) > h3:hover + img + p,
-main > ul:has(> h3) > h3:has(+ img:hover),
-main > ul:has(> h3) > img:hover,
-main > ul:has(> h3) > img:hover + p,
-main > ul:has(> h3) > h3:has(+ img + p:hover),
-main > ul:has(> h3) > img:has(+ p:hover),
-main > ul:has(> h3) > p:hover {
-    border-color: var(--cor-destaque);
-}
-section li:hover,
-section li:hover + img,
-section li + img:hover {
-    border-color: var(--cor-destaque);
-}
-/* Realça a borda dos campos do formulário ao passar o mouse */
-form input:hover,
-form textarea:hover,
-form select:hover {
-    border-color: var(--cor-texto-suave);
-}
-/* Destaque evidente ao clicar ou digitar nos campos do formulário (:focus) */
-form input:focus,
-form textarea:focus,
-form select:focus {
-    outline: none;
-    border-color: var(--cor-destaque);
-    background-color: var(--cor-cartao-hover);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
-}
-/* Destaque obrigatório para acessibilidade via tecla TAB (:focus) */
-a:focus,
-form button:focus {
-    outline: 3px solid var(--cor-destaque);
-    outline-offset: 3px;
-}
-/* ==========================================================================
-   11. RODAPÉ (FOOTER) COM FLEXBOX
-   Organiza os créditos e informações de contato no final da página.
-   ========================================================================== */
 footer {
     background-color: var(--cor-superficie);
     border-top: 1px solid var(--cor-borda);
-    padding: 28px 20px;
-    margin-top: 48px;
+    padding: 24px 20px;
+    margin-top: 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     gap: 6px;
-}
-footer p {
-    font-size: 0.9rem;
     color: var(--cor-texto-suave);
+    font-size: 0.9rem;
 }
-footer p:first-child {
-    color: var(--cor-texto-principal);
-    font-weight: 600;
+footer address {
+    font-style: normal;
+}
+footer a {
+    color: var(--cor-destaque);
+    text-decoration: none;
 }
 /* ==========================================================================
-   12. RESPONSIVIDADE PARA CELULAR (ATÉ 600px)
-   Adapta cabeçalho, menus, vitrines e formulário para telas pequenas.
+   10. INTERAÇÕES (:hover e :focus)
+   ========================================================================== */
+nav a:hover,
+button:hover:not(:disabled),
+body > a:hover {
+    background-color: var(--cor-destaque-hover);
+    color: #FFFFFF;
+    transform: translateY(-2px);
+}
+#esvaziar-carrinho:hover:not(:disabled) {
+    background-color: var(--cor-perigo);
+    color: #FFFFFF;
+}
+main > ul:has(> li) > li:hover,
+.cartao:hover {
+    border-color: var(--cor-destaque);
+    background-color: var(--cor-cartao-hover);
+    transform: translateY(-3px);
+}
+input:focus,
+select:focus,
+textarea:focus,
+a:focus,
+button:focus {
+    outline: 2px solid var(--cor-destaque);
+    outline-offset: 2px;
+    border-color: var(--cor-destaque);
+}
+/* ==========================================================================
+   11. RESPONSIVIDADE PARA CELULAR (ATÉ 600px)
    ========================================================================== */
 @media (max-width: 600px) {
     header,
-    body > nav {
-        flex-direction: column;
-        text-align: center;
-        padding: 18px 16px;
-    }
-    header h1 {
-        margin-right: 0;
-        font-size: 1.3rem;
-    }
     nav {
         flex-direction: column;
-        width: 100%;
+        text-align: center;
     }
-    /* Botões ocupam 100% da largura no celular para facilitar o toque */
+    header h1,
+    header h2,
+    nav h2 {
+        margin-right: 0;
+    }
     nav a,
-    main > a,
-    form button {
+    button,
+    main > ul:has(> li) > li,
+    .cartao {
         width: 100%;
         flex-basis: 100%;
     }
-    main > ul:has(> li) > li {
-        flex-basis: 100%;
-    }
-    /* Volta os celulares e destaques da home para 1 coluna no mobile */
     main > ul:has(> h3),
     #jogo,
     #eletronico {
@@ -607,23 +488,9 @@ footer p:first-child {
     section li + img {
         margin-bottom: 14px;
     }
-    /* Ajusta a logo, título, formulário e botão de voltar no celular */
-    body > img {
-        width: 72px;
-        height: 72px;
-        margin-top: 24px;
-    }
-    body > h2 {
-        font-size: 1.25rem;
-    }
-    form {
-        margin: 0 16px 36px 16px;
-        padding: 22px 18px;
-    }
-    form:has(+ a) {
-        margin-bottom: 14px;
-    }
+    form,
     body > a {
-        margin: 0 16px 36px 16px;
+        margin-left: 16px;
+        margin-right: 16px;
     }
 }

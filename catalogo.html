@@ -3,28 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Catálogo | Zé Games e eletrônicos</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="catalogo.js" defer></script>
+
 </head>
 <body>
     <header>
-        <h1>Catalogo</h1>
+        <h1>Catálogo</h1>
     </header>
     <main>
-        <a href="index.html">Voltar para a página inicial</a> 
-        <a href="consoles.html">Consoles</a> 
-        <a href="celulares.html">Celulares</a> 
-        <a href="notebooks.html">Notebooks</a> 
-        <a href="acessorios.html">Acessórios</a> 
-        <a href="jogos.html">Jogos</a>
-        <a href="cadastro.html">cadastro de jogos</a>
-        <p id="resumo" role="status"></p>
-        <p id="pedido" role="status">Pedido: 0 itens · Total: R$ 0,00</p>
-        <!-- O JavaScript cria os cartões dentro desta div. -->
-        <div id="lista-produtos"></div>
+        <nav aria-label="Menu da loja">
+            <a href="index.html">Voltar para a página inicial</a>
+            <a href="consoles.html">Consoles</a>
+            <a href="celulares.html">Celulares</a>
+            <a href="notebooks.html">Notebooks</a>
+            <a href="acessorios.html">Acessórios</a>
+            <a href="jogos.html">Jogos</a>
+            <a href="cadastro.html">Cadastro de jogos</a>
+            <a href="simulador.html">Simule sua compra</a>
+        </nav>
     </main>
-    <script src="dados.js"></script>
-    <script src="catalogo.js"></script>
 </body>
+   <!-- Primeiro os produtos, depois o código que monta os cartões e o carrinho. -->
+    <script src="js/catalogo.js" defer></script>
 </html>
