@@ -1,0 +1,196 @@
+
+    
+  
+/* Paleta e largura da página
+   :root guarda valores que o restante do arquivo reutiliza com var().
+   Troque --verde para mudar a cor de destaque da loja.
+   A margem lateral cresce em telas largas para centralizar o conteúdo. */
+:root {
+    --branco: #ffffff;
+    --verde-escuro: #104d37;
+    --texto: #202724;
+    --secundario: #526059;
+    --verde: #176349;
+    --linha: #d8e0db;
+    --fundo-suave: #f2f6f3;
+    --margem: max(1rem, calc((100% - 64rem) / 2));
+}
+
+/* Base da página
+   Com border-box, a largura definida inclui o padding e a borda.
+   Os títulos e parágrafos recebem espaçamentos próprios mais abaixo. */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--branco);
+    color: var(--texto);
+    font-family: "Inter", system-ui, sans-serif;
+    line-height: 1.55;
+}
+
+h1, h2, h3, h4, p, ul {
+    margin: 0;
+}
+
+h1, h2, h3, h4 {
+    line-height: 1.2;
+}
+
+/* Cabeçalho e menu
+   Flexbox alinha o logo, o nome da loja e a navegação na mesma linha.
+   O título ocupa o espaço livre. A propriedade order coloca o logo primeiro. */
+header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1.25rem var(--margem);
+    border-bottom: 1px solid var(--linha);
+}
+
+header > img {
+    order: -1;
+    width: 3rem;
+    height: 3rem;
+    object-fit: contain;
+}
+
+h1 {
+    flex: 1;
+    font-size: clamp(1.3rem, 3vw, 2rem);
+    letter-spacing: -0.035em;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+nav h2 {
+    color: var(--secundario);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+nav a {
+    display: inline-block;
+    padding: 0.65rem 1.1rem;
+    border-radius: 0.4rem;
+    background: var(--verde);
+    color: var(--branco);
+    font-weight: 650;
+    text-decoration: none;
+}
+
+/* Interação com o catálogo
+   :hover escurece o botão quando o ponteiro passa sobre ele.
+   :focus desenha um contorno que indica o link selecionado, inclusive com Tab. */
+nav a:hover {
+    background: var(--verde-escuro);
+}
+
+nav a:focus {
+    outline: 3px solid var(--verde);
+    outline-offset: 4px;
+}
+
+/* Sobre nós e oferta
+   O limite em ch mantém o texto de apresentação confortável para leitura.
+   A faixa com borda verde destaca as condições de pagamento. */
+main {
+    margin-inline: var(--margem);
+    padding-block: clamp(2.25rem, 6vw, 4.5rem);
+}
+
+main > h2 {
+    margin-bottom: 1rem;
+    font-size: clamp(1.75rem, 4vw, 2.7rem);
+    letter-spacing: -0.04em;
+}
+
+main > p {
+    max-width: 68ch;
+    color: var(--secundario);
+}
+
+main > p strong {
+    display: inline-block;
+    margin-block: 1.25rem 0.5rem;
+    padding: 0.75rem 1rem;
+    border-left: 3px solid var(--verde);
+    background: var(--fundo-suave);
+    color: var(--verde);
+    font-size: 0.9rem;
+}
+
+p + h2 {
+    margin-top: 3rem;
+}
+
+/* Catálogo
+   No HTML, cada nome (li) vem seguido pela sua imagem (img).
+   A grade coloca os dois lado a lado. Os títulos ocupam as duas colunas. */
+main > ul {
+    padding: 0;
+    list-style: none;
+}
+
+#jogo, #eletronico {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(6rem, 25vw, 14rem);
+    align-items: stretch;
+}
+
+#eletronico {
+    margin-top: 2.5rem;
+}
+
+section > h3, section > h4 {
+    grid-column: 1 / -1;
+}
+
+section > h3:first-child {
+    padding-block: 0.8rem;
+    border-block: 1px solid var(--linha);
+    font-size: 1.5rem;
+}
+
+/* Consoles e celulares são categorias. Sony, Microsoft e Nintendo são marcas. */
+#eletronico > h3 + h3, #eletronico > h4:last-of-type {
+    margin-top: 1.5rem;
+    font-size: 1.2rem;
+}
+
+#eletronico > h4:not(:last-of-type) {
+    margin-top: 1rem;
+    color: var(--verde);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+/* Cartões e box model
+   O nome e a foto formam as duas metades de cada cartão.
+   margin separa um cartão do próximo, border desenha o contorno
+   e padding deixa espaço entre a borda e o conteúdo. */
+section > li, section > img {
+    margin-top: 0.65rem;
+    border: 1px solid var(--linha);
+    background: var(--branco);
+}
+
+section > li {
+    grid-column: 1;
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    border-right: 0;
+    border-radius: 0.65rem 0 0 0.65rem;
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-weight: 600;
+}
+
