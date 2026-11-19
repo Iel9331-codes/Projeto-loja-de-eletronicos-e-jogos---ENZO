@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador | Zé Games e eletrônicos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Zé Games e eletrônicos</h1>
+        <nav aria-label="Menu principal">
+            <a href="catalogo.html">Catálogo</a>
+            <a href="cadastro.html">Cadastro de produtos</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Simulador</h2>
+        <p>À vista, você ganha 10% de desconto. No cartão, pode dividir em até 6 vezes sem juros.</p>
+        <form id="simulacao">
+            <label for="item">Produto</label>
+            <!-- As opções vêm do array de produtos. -->
+            <select id="item" required></select>
+            <label for="quantidade">Quantidade</label>
+            <input id="quantidade" type="number" min="1" step="1" value="1" required>
+            <label for="pagamento">Pagamento</label>
+            <select id="pagamento">
+                <option value="0">À vista com 10% de desconto</option>
+                <option value="1">Cartão em 1x sem juros</option>
+                <option value="2">Cartão em 2x sem juros</option>
+                <option value="3">Cartão em 3x sem juros</option>
+                <option value="4">Cartão em 4x sem juros</option>
+                <option value="5">Cartão em 5x sem juros</option>
+                <option value="6">Cartão em 6x sem juros</option>
+            </select>
+            <button type="submit">Calcular total</button>
+        </form>
+        <p id="resultado" role="status"></p>
+    </main>
+    <script src="dados.js"></script>
+    <script src="simulador.js"></script>
+</body>
+</html>
