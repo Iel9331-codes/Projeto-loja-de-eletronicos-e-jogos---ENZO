@@ -5,11 +5,11 @@
    ========================================================================== */
 :root {
     --cor-fundo: #09090B;            /* Fundo preto principal da página */
-    --cor-superficie: #121215;       /* Fundo do cabeçalho, seções e rodapé */
-    --cor-cartao: #18181B;           /* Fundo interno dos cartões de produto */
-    --cor-cartao-hover: #202025;     /* Fundo do cartão ao passar o mouse */
+    --cor-superficie: #121215;       /* Fundo do cabeçalho, seções, formulário e rodapé */
+    --cor-cartao: #18181B;           /* Fundo interno dos cartões e campos de input */
+    --cor-cartao-hover: #202025;     /* Fundo do cartão/campo ao interagir */
     --cor-fundo-imagem: #FFFFFF;     /* Fundo claro para destacar fotos de produtos */
-    --cor-texto-principal: #F4F4F5;  /* Branco suave para títulos e textos */
+    --cor-texto-principal: #F4F4F5;  /* Branco suave para títulos, rótulos e textos */
     --cor-texto-suave: #A1A1AA;      /* Cinza claro para textos secundários */
     --cor-destaque: #3B82F6;         /* Azul principal (botões, preços e bordas) */
     --cor-destaque-hover: #2563EB;   /* Azul mais intenso para hover e focus */
@@ -428,11 +428,107 @@ section li + img {
 }
 
 /* ==========================================================================
-   9. INTERAÇÕES (:hover e :focus)
+   9. PÁGINA DE CADASTRO DE PRODUTOS (FORMULÁRIO COM FLEXBOX + BOX MODEL)
+   Estiliza a logo solta no topo (body > img), o título (body > h2) e o
+   cartão do formulário (<form>), deixando cada campo claro e organizado.
+   ========================================================================== */
+
+/* Logo centralizada no topo da página de cadastro (sobrescreve width="300") */
+body > img {
+    display: block;
+    width: 86px;
+    height: 86px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid var(--cor-destaque);
+    margin: 36px auto 16px auto;
+}
+
+/* Título principal centralizado acima do formulário */
+body > h2 {
+    max-width: 540px;
+    margin: 0 auto 24px auto;
+    padding: 0 20px;
+    text-align: center;
+    font-size: 1.45rem;
+    color: var(--cor-texto-principal);
+}
+
+/* Cartão principal que envolve todos os campos do formulário */
+form {
+    background-color: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: 14px;
+    max-width: 540px;
+    margin: 0 auto 48px auto;
+    padding: 32px;
+
+    /* Flexbox em coluna para distribuir os blocos de entrada com espaçamento igual */
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* Cada <p> agrupa o rótulo (label) e seu campo (input/textarea/select) */
+form p {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Esconde o <br> do HTML para que o Flexbox controle o espaçamento exato */
+form br {
+    display: none;
+}
+
+/* Rótulo explicativo acima de cada campo */
+form label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--cor-texto-principal);
+    margin-bottom: 8px;
+}
+
+/* Campos de texto, número, área de descrição e seletor de categoria */
+form input,
+form textarea,
+form select {
+    width: 100%;
+    background-color: var(--cor-cartao);
+    color: var(--cor-texto-principal);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+form textarea {
+    resize: vertical;
+    min-height: 95px;
+}
+
+/* Botão de envio ("Cadastrar produto") */
+form button {
+    background-color: var(--cor-destaque);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    padding: 14px 20px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 6px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+/* ==========================================================================
+   10. INTERAÇÕES (:hover e :focus)
    Dá feedback visual ao passar o mouse (:hover) ou navegar por teclado (:focus).
    ========================================================================== */
 nav a:hover,
-main > a[href="index.html"]:hover {
+main > a[href="index.html"]:hover,
+form button:hover {
     background-color: var(--cor-destaque-hover);
     color: #FFFFFF;
     transform: translateY(-2px);
@@ -464,14 +560,32 @@ section li + img:hover {
     border-color: var(--cor-destaque);
 }
 
+/* Realça a borda dos campos do formulário ao passar o mouse */
+form input:hover,
+form textarea:hover,
+form select:hover {
+    border-color: var(--cor-texto-suave);
+}
+
+/* Destaque evidente ao clicar ou digitar nos campos do formulário (:focus) */
+form input:focus,
+form textarea:focus,
+form select:focus {
+    outline: none;
+    border-color: var(--cor-destaque);
+    background-color: var(--cor-cartao-hover);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
 /* Destaque obrigatório para acessibilidade via tecla TAB (:focus) */
-a:focus {
+a:focus,
+form button:focus {
     outline: 3px solid var(--cor-destaque);
     outline-offset: 3px;
 }
 
 /* ==========================================================================
-   10. RODAPÉ (FOOTER) COM FLEXBOX
+   11. RODAPÉ (FOOTER) COM FLEXBOX
    Organiza os créditos e informações de contato no final da página.
    ========================================================================== */
 footer {
@@ -498,8 +612,8 @@ footer p:first-child {
 }
 
 /* ==========================================================================
-   11. RESPONSIVIDADE PARA CELULAR (ATÉ 600px)
-   Adapta cabeçalho, menus e vitrines para telas pequenas em coluna única.
+   12. RESPONSIVIDADE PARA CELULAR (ATÉ 600px)
+   Adapta cabeçalho, menus, vitrines e formulário para telas pequenas.
    ========================================================================== */
 @media (max-width: 600px) {
     header,
@@ -521,7 +635,8 @@ footer p:first-child {
 
     /* Botões ocupam 100% da largura no celular para facilitar o toque */
     nav a,
-    main > a {
+    main > a,
+    form button {
         width: 100%;
         flex-basis: 100%;
     }
@@ -540,5 +655,21 @@ footer p:first-child {
 
     section li + img {
         margin-bottom: 14px;
+    }
+
+    /* Ajusta a logo, título e margens laterais do formulário no celular */
+    body > img {
+        width: 72px;
+        height: 72px;
+        margin-top: 24px;
+    }
+
+    body > h2 {
+        font-size: 1.25rem;
+    }
+
+    form {
+        margin: 0 16px 36px 16px;
+        padding: 22px 18px;
     }
 }
